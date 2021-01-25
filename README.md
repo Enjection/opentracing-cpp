@@ -1,3 +1,8 @@
+# Warning
+
+This branch contains patched version of opentracing-cpp which uses conan instead of hunter.
+This repo is not actively maintained and further readme can contain incorrect information about building.
+
 # OpenTracing API for C++
 C++ implementation of the OpenTracing API http://opentracing.io
 
