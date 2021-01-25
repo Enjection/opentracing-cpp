@@ -21,6 +21,23 @@ set(OPENTRACING_VERSION_STRING
   "${OPENTRACING_VERSION_MAJOR}.${OPENTRACING_VERSION_MINOR}.${OPENTRACING_VERSION_PATCH}")
 
 # ==============================================================================
+# Use conan as dependency manager
+
+if(CONAN_EXPORTED) # in conan local cache
+    # standard conan installation, deps will be defined in conanfile.py
+    # and not necessary to call conan again, conan is already running
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS)
+else() # in user space
+    include(cmake/Conan.cmake)
+    run_conan()
+    # Make sure to use conanfile.py to define dependencies, to stay consistent
+    conan_cmake_run(CONANFILE conanfile.py
+                    BASIC_SETUP CMAKE_TARGETS
+                    BUILD outdated)
+endif()
+
+# ==============================================================================
 # Set up cpack
 
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "C++ implementation of the OpenTracing API")
